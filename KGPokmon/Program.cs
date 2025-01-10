@@ -6,6 +6,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<PokemonService>();
+
+var pokemonService = new PokemonService(new HttpClient());
+await pokemonService.GenerateAllPokemonTripletsAsync();
+pokemonService.SaveGlobalGraphToFile("pokemons.ttl");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

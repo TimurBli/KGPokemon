@@ -4,27 +4,21 @@
 
 <h3>Données de Pokémon</h3>
 
-<button @onclick="GetPokemonDataBulbasaur">Charger Bulbizarre</button>
-<button @onclick="GetPokemonDataPikachu">Charger Pikachu</button>
+<button @onclick="GenerateAllPokemonTriplets">Générer les Triplets RDF pour Tous les Pokémon</button>
 
-@if (!string.IsNullOrEmpty(pokemonData))
+@if (!string.IsNullOrEmpty(allPokemonTriplets))
 {
     <div>
-        <h4>Infobox sur le Pokémon :</h4>
-        <pre>@pokemonData</pre>
+        <h4>Triplets RDF pour Tous les Pokémon :</h4>
+        <pre>@allPokemonTriplets</pre>
     </div>
 }
 
 @code {
-    private string pokemonData;
+    private string allPokemonTriplets;
 
-    private async Task GetPokemonDataBulbasaur()
+    private async Task GenerateAllPokemonTriplets()
     {
-        pokemonData = await PokemonService.GetPokemonDataAsync("Bulbasaur");
-    }
-
-    private async Task GetPokemonDataPikachu()
-    {
-        pokemonData = await PokemonService.GetPokemonDataAsync("Pikachu");
+        allPokemonTriplets = await PokemonService.GenerateAllPokemonTripletsAsync();
     }
 }

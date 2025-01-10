@@ -1,0 +1,30 @@
+﻿@page "/pokemon"
+@inject PokemonService PokemonService
+@rendermode InteractiveServer
+
+<h3>Données de Pokémon</h3>
+
+<button @onclick="GetPokemonDataBulbasaur">Charger Bulbizarre</button>
+<button @onclick="GetPokemonDataPikachu">Charger Pikachu</button>
+
+@if (!string.IsNullOrEmpty(pokemonData))
+{
+    <div>
+        <h4>Infobox sur le Pokémon :</h4>
+        <pre>@pokemonData</pre>
+    </div>
+}
+
+@code {
+    private string pokemonData;
+
+    private async Task GetPokemonDataBulbasaur()
+    {
+        pokemonData = await PokemonService.GetPokemonDataAsync("Bulbasaur");
+    }
+
+    private async Task GetPokemonDataPikachu()
+    {
+        pokemonData = await PokemonService.GetPokemonDataAsync("Pikachu");
+    }
+}

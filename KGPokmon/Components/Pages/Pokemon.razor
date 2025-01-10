@@ -4,40 +4,21 @@
 
 <h3>Données de Pokémon</h3>
 
-<button @onclick="GetPokemonDataBulbasaur">Charger Bulbizarre</button>
-<button @onclick="GetPokemonDataPikachu">Charger Pikachu</button>
+<button @onclick="GenerateAllPokemonTriplets">Générer les Triplets RDF pour Tous les Pokémon</button>
 
-@if (!string.IsNullOrEmpty(pokemonData))
+@if (!string.IsNullOrEmpty(allPokemonTriplets))
 {
     <div>
-        <h4>Infobox sur le Pokémon :</h4>
-        <pre>@pokemonData</pre>
-        <button @onclick="SendTriplesToFuseki">Envoyer à Fuseki</button>
+        <h4>Triplets RDF pour Tous les Pokémon :</h4>
+        <pre>@allPokemonTriplets</pre>
     </div>
 }
 
 @code {
-    private string pokemonData;
-    private Dictionary<string, List<(string, string)>> translations;
+    private string allPokemonTriplets;
 
-    protected override async Task OnInitializedAsync()
+    private async Task GenerateAllPokemonTriplets()
     {
-        translations = await PokemonService.LoadPokemonTranslationsAsync();
-    }
-
-    private async Task GetPokemonDataBulbasaur()
-    {
-        pokemonData = await PokemonService.GetPokemonDataAsync("Bulbasaur", translations);
-    }
-
-    private async Task GetPokemonDataPikachu()
-    {
-        pokemonData = await PokemonService.GetPokemonDataAsync("Pikachu", translations);
-    }
-
-    private async Task SendTriplesToFuseki()
-    {
-        var result = await PokemonService.SendRdfToFusekiAsync(pokemonData);
-        Console.WriteLine(result);
+        allPokemonTriplets = await PokemonService.GenerateAllPokemonTripletsAsync();
     }
 }

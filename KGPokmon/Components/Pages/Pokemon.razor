@@ -11,14 +11,23 @@
     <div>
         <h4>Triplets RDF pour Tous les Pokémon :</h4>
         <pre>@allPokemonTriplets</pre>
+
     </div>
 }
 
 @code {
     private string allPokemonTriplets;
+    private Dictionary<string, List<(string, string)>> translations;
+
+    protected override async Task OnInitializedAsync()
+    {
+        translations = await PokemonService.LoadPokemonTranslationsAsync();    
+    }
 
     private async Task GenerateAllPokemonTriplets()
     {
         allPokemonTriplets = await PokemonService.GenerateAllPokemonTripletsAsync();
     }
+
+
 }

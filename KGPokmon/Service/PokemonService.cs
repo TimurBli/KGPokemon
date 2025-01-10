@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+﻿using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
@@ -63,12 +63,15 @@ public class PokemonService
         _globalGraph.Assert(pokemonUri, hasWeight, _globalGraph.CreateLiteralNode(weight));
     }
 
-    public void SaveGlobalGraphToFile(string filePath)
+    public async void SaveGlobalGraphToFile(string filePath)
     {
         var writer = new CompressingTurtleWriter { PrettyPrintMode = true, HighSpeedModePermitted = false };
 
         using var fileWriter = new System.IO.StreamWriter(filePath);
         writer.Save(_globalGraph, fileWriter);
+        var result = await SendRdfToFusekiAsync(_globalGraph);
+        Console.WriteLine(result);
+
     }
 
     public async Task<string> GenerateAllPokemonTripletsAsync()
@@ -91,7 +94,7 @@ public class PokemonService
             }
         }
 
-        return string.Join("\n\n", allTriples) + "\n"; 
+        return string.Join("\n\n", allTriples) + "\n";
     }
 
 
@@ -165,5 +168,68 @@ public class PokemonService
         graph.NamespaceMap.AddNamespace("ex", new Uri("http://example.org/pokemon/"));
         graph.NamespaceMap.AddNamespace("prop", new Uri("http://example.org/property/"));
         return graph;
+    }
+
+    public async Task<string> SendRdfToFusekiAsync(Graph graph)
+    {
+        // Sérialiser le graphe en Turtle
+        var writer = new CompressingTurtleWriter();
+        using var stringWriter = new System.IO.StringWriter();
+        writer.Save(graph, stringWriter);
+
+        var rdfTriples = stringWriter.ToString();
+
+        // URL de ton endpoint Fuseki
+        var fusekiEndpoint = "http://localhost:3030/Pokemon/data";
+
+        // Préparer la requête HTTP
+        var content = new StringContent(rdfTriples, Encoding.UTF8, "text/turtle");
+
+        // Envoyer la requête POST
+        var response = await _httpClient.PostAsync(fusekiEndpoint, content);
+
+        // Vérifier la réponse
+        if (response.IsSuccessStatusCode)
+        {
+            return "Triplets RDF envoyés avec succès à Fuseki.";
+        }
+        else
+        {
+            return $"Erreur lors de l'envoi : {response.StatusCode} - {response.ReasonPhrase}";
+        }
+    }
+
+
+    public async Task<Dictionary<string, List<(string, string)>>> LoadPokemonTranslationsAsync()
+    {
+        var translations = new Dictionary<string, List<(string, string)>>();
+
+        // Chemin vers le fichier pokedex-i18n.tsv
+        var filePath = "wwwroot/data/pokedex-i18n.tsv";
+
+        // Lire chaque ligne du fichier
+        var lines = await File.ReadAllLinesAsync(filePath);
+
+        foreach (var line in lines)
+        {
+            var columns = line.Split('\t');
+            if (columns.Length != 4) continue;
+
+            var type = columns[0];
+            var pokemonId = columns[1];
+            var name = columns[2];
+            var language = columns[3];
+
+            if (type != "pokemon") continue;
+
+            // Ajoute les traductions dans le dictionnaire
+            if (!translations.ContainsKey(pokemonId))
+            {
+                translations[pokemonId] = new List<(string, string)>();
+            }
+            translations[pokemonId].Add((name, language));
+        }
+
+        return translations;
     }
 }

@@ -1,0 +1,554 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix ex: <http://example.org/pokemon/>.
+@prefix prop: <http://example.org/property/>.
+
+ex:Abomasnow prop:hasHeight "2.2 m";
+             prop:hasName "Abomasnow";
+             prop:hasType "Grass";
+             prop:hasWeight "135.5 kg";
+             rdfs:label "ユキノオー"@japanese,
+                        "눈설왕"@korean,
+                        "暴雪王"@chinese,
+                        "Blizzaroi"@french,
+                        "Rexblisar"@german,
+                        "Abomasnow"@spanish,
+                        "Abomasnow"@italian,
+                        "Abomasnow"@english.
+ex:Abra prop:hasHeight "0.9 m";
+        prop:hasName "Abra";
+        prop:hasType "Psychic";
+        prop:hasWeight "19.5 kg";
+        rdfs:label "ケーシィ"@japanese,
+                   "캐이시"@korean,
+                   "凱西"@chinese,
+                   "Abra"@french,
+                   "Abra"@german,
+                   "Abra"@spanish,
+                   "Abra"@italian,
+                   "Abra"@english.
+ex:Absol prop:hasHeight "1.2 m";
+         prop:hasName "Absol";
+         prop:hasType "Dark";
+         prop:hasWeight "47.0 kg";
+         rdfs:label "アブソル"@japanese,
+                    "앱솔"@korean,
+                    "阿勃梭魯"@chinese,
+                    "Absol"@french,
+                    "Absol"@german,
+                    "Absol"@spanish,
+                    "Absol"@italian,
+                    "Absol"@english.
+ex:Accelgor prop:hasHeight "0.8 m";
+            prop:hasName "Accelgor";
+            prop:hasType "Bug";
+            prop:hasWeight "25.3 kg";
+            rdfs:label "アギルダー"@japanese,
+                       "어지리더"@korean,
+                       "敏捷蟲"@chinese,
+                       "Limaspeed"@french,
+                       "Hydragil"@german,
+                       "Accelgor"@spanish,
+                       "Accelgor"@italian,
+                       "Accelgor"@english.
+ex:Aegislash prop:hasHeight "1.7 m";
+             prop:hasName "Aegislash";
+             prop:hasType "Steel";
+             prop:hasWeight "53.0 kg";
+             rdfs:label "ギルガルド"@japanese,
+                        "킬가르도"@korean,
+                        "堅盾劍怪"@chinese,
+                        "Exagide"@french,
+                        "Durengard"@german,
+                        "Aegislash"@spanish,
+                        "Aegislash"@italian,
+                        "Aegislash"@english.
+ex:Aerodactyl prop:hasHeight "1.8 m";
+              prop:hasName "Aerodactyl";
+              prop:hasType "Rock";
+              prop:hasWeight "59.0 kg";
+              rdfs:label "プテラ"@japanese,
+                         "프테라"@korean,
+                         "化石翼龍"@chinese,
+                         "Ptéra"@french,
+                         "Aerodactyl"@german,
+                         "Aerodactyl"@spanish,
+                         "Aerodactyl"@italian,
+                         "Aerodactyl"@english.
+ex:Aggron prop:hasHeight "2.1 m";
+          prop:hasName "Aggron";
+          prop:hasType "Steel";
+          prop:hasWeight "360.0 kg";
+          rdfs:label "ボスゴドラ"@japanese,
+                     "보스로라"@korean,
+                     "波士可多拉"@chinese,
+                     "Galeking"@french,
+                     "Stolloss"@german,
+                     "Aggron"@spanish,
+                     "Aggron"@italian,
+                     "Aggron"@english.
+ex:Aipom prop:hasHeight "0.8 m";
+         prop:hasName "Aipom";
+         prop:hasType "Normal";
+         prop:hasWeight "11.5 kg";
+         rdfs:label "エイパム"@japanese,
+                    "에이팜"@korean,
+                    "長尾怪手"@chinese,
+                    "Capumain"@french,
+                    "Griffel"@german,
+                    "Aipom"@spanish,
+                    "Aipom"@italian,
+                    "Aipom"@english.
+ex:Alakazam prop:hasHeight "1.5 m";
+            prop:hasName "Alakazam";
+            prop:hasType "Psychic";
+            prop:hasWeight "48.0 kg";
+            rdfs:label "フーディン"@japanese,
+                       "후딘"@korean,
+                       "胡地"@chinese,
+                       "Alakazam"@french,
+                       "Simsala"@german,
+                       "Alakazam"@spanish,
+                       "Alakazam"@italian,
+                       "Alakazam"@english.
+ex:Alcremie prop:hasHeight "0.3 m";
+            prop:hasName "Alcremie";
+            prop:hasType "Fairy";
+            prop:hasWeight "0.5 kg";
+            rdfs:label "マホイップ"@japanese,
+                       "마휘핑"@korean,
+                       "霜奶仙"@chinese,
+                       "Charmilly"@french,
+                       "Pokusan"@german,
+                       "Alcremie"@spanish,
+                       "Alcremie"@italian,
+                       "Alcremie"@english.
+ex:Alomomola prop:hasHeight "1.2 m";
+             prop:hasName "Alomomola";
+             prop:hasType "Water";
+             prop:hasWeight "31.6 kg";
+             rdfs:label "ママンボウ"@japanese,
+                        "맘복치"@korean,
+                        "保母曼波"@chinese,
+                        "Mamanbo"@french,
+                        "Mamolida"@german,
+                        "Alomomola"@spanish,
+                        "Alomomola"@italian,
+                        "Alomomola"@english.
+ex:Altaria prop:hasHeight "1.1 m";
+           prop:hasName "Altaria";
+           prop:hasType "Dragon";
+           prop:hasWeight "20.6 kg";
+           rdfs:label "チルタリス"@japanese,
+                      "파비코리"@korean,
+                      "七夕青鳥"@chinese,
+                      "Altaria"@french,
+                      "Altaria"@german,
+                      "Altaria"@spanish,
+                      "Altaria"@italian,
+                      "Altaria"@english.
+ex:Amaura prop:hasHeight "1.3 m";
+          prop:hasName "Amaura";
+          prop:hasType "Rock";
+          prop:hasWeight "25.2 kg";
+          rdfs:label "アマルス"@japanese,
+                     "아마루스"@korean,
+                     "冰雪龍"@chinese,
+                     "Amagara"@french,
+                     "Amarino"@german,
+                     "Amaura"@spanish,
+                     "Amaura"@italian,
+                     "Amaura"@english.
+ex:Ambipom prop:hasHeight "1.2 m";
+           prop:hasName "Ambipom";
+           prop:hasType "Normal";
+           prop:hasWeight "20.3 kg";
+           rdfs:label "エテボース"@japanese,
+                      "겟핸보숭"@korean,
+                      "雙尾怪手"@chinese,
+                      "Capidextre"@french,
+                      "Ambidiffel"@german,
+                      "Ambipom"@spanish,
+                      "Ambipom"@italian,
+                      "Ambipom"@english.
+ex:Amoonguss prop:hasHeight "0.6 m";
+             prop:hasName "Amoonguss";
+             prop:hasType "Grass";
+             prop:hasWeight "10.5 kg";
+             rdfs:label "モロバレル"@japanese,
+                        "뽀록나"@korean,
+                        "敗露球菇"@chinese,
+                        "Gaulet"@french,
+                        "Hutsassa"@german,
+                        "Amoonguss"@spanish,
+                        "Amoonguss"@italian,
+                        "Amoonguss"@english.
+ex:Ampharos prop:hasHeight "1.4 m";
+            prop:hasName "Ampharos";
+            prop:hasType "Electric";
+            prop:hasWeight "61.5 kg";
+            rdfs:label "デンリュウ"@japanese,
+                       "전룡"@korean,
+                       "電龍"@chinese,
+                       "Pharamp"@french,
+                       "Ampharos"@german,
+                       "Ampharos"@spanish,
+                       "Ampharos"@italian,
+                       "Ampharos"@english.
+ex:Annihilape prop:hasHeight "1.2 m";
+              prop:hasName "Annihilape";
+              prop:hasType "Fighting";
+              prop:hasWeight "56.0 kg".
+ex:Anorith prop:hasHeight "0.7 m";
+           prop:hasName "Anorith";
+           prop:hasType "Rock";
+           prop:hasWeight "12.5 kg";
+           rdfs:label "アノプス"@japanese,
+                      "아노딥스"@korean,
+                      "太古羽蟲"@chinese,
+                      "Anorith"@french,
+                      "Anorith"@german,
+                      "Anorith"@spanish,
+                      "Anorith"@italian,
+                      "Anorith"@english.
+ex:Appletun prop:hasHeight "0.4 m";
+            prop:hasName "Appletun";
+            prop:hasType "Grass";
+            prop:hasWeight "13.0 kg";
+            rdfs:label "タルップル"@japanese,
+                       "단지래플"@korean,
+                       "豐蜜龍"@chinese,
+                       "Dratatin"@french,
+                       "Schlapfel"@german,
+                       "Appletun"@spanish,
+                       "Appletun"@italian,
+                       "Appletun"@english.
+ex:Applin prop:hasHeight "0.2 m";
+          prop:hasName "Applin";
+          prop:hasType "Grass";
+          prop:hasWeight "0.5 kg";
+          rdfs:label "カジッチュ"@japanese,
+                     "과사삭벌레"@korean,
+                     "啃果蟲"@chinese,
+                     "Verpom"@french,
+                     "Knapfel"@german,
+                     "Applin"@spanish,
+                     "Applin"@italian,
+                     "Applin"@english.
+ex:Araquanid prop:hasHeight "1.8 m";
+             prop:hasName "Araquanid";
+             prop:hasType "Water";
+             prop:hasWeight "82.0 kg";
+             rdfs:label "オニシズクモ"@japanese,
+                        "깨비물거미"@korean,
+                        "滴蛛霸"@chinese,
+                        "Tarenbulle"@french,
+                        "Aranestro"@german,
+                        "Araquanid"@spanish,
+                        "Araquanid"@italian,
+                        "Araquanid"@english.
+ex:Arbok prop:hasHeight "3.5 m";
+         prop:hasName "Arbok";
+         prop:hasType "Poison";
+         prop:hasWeight "65.0 kg";
+         rdfs:label "アーボック"@japanese,
+                    "아보크"@korean,
+                    "阿柏怪"@chinese,
+                    "Arbok"@french,
+                    "Arbok"@german,
+                    "Arbok"@spanish,
+                    "Arbok"@italian,
+                    "Arbok"@english.
+ex:Arboliva prop:hasHeight "1.4 m";
+            prop:hasName "Arboliva";
+            prop:hasType "Grass";
+            prop:hasWeight "48.2 kg".
+ex:Arcanine prop:hasHeight "1.9 m";
+            prop:hasName "Arcanine";
+            prop:hasType "Fire";
+            prop:hasWeight "155.0 kg";
+            rdfs:label "ウインディ"@japanese,
+                       "윈디"@korean,
+                       "風速狗"@chinese,
+                       "Arcanin"@french,
+                       "Arkani"@german,
+                       "Arcanine"@spanish,
+                       "Arcanine"@italian,
+                       "Arcanine"@english.
+ex:Arceus prop:hasHeight "3.2 m";
+          prop:hasName "Arceus";
+          prop:hasType "Normal";
+          prop:hasWeight "320.0 kg";
+          rdfs:label "アルセウス"@japanese,
+                     "아르세우스"@korean,
+                     "阿爾宙斯"@chinese,
+                     "Arceus"@french,
+                     "Arceus"@german,
+                     "Arceus"@spanish,
+                     "Arceus"@italian,
+                     "Arceus"@english.
+ex:Archaludon prop:hasHeight "2.0 m";
+              prop:hasName "Archaludon";
+              prop:hasType "Steel";
+              prop:hasWeight "60.0 kg".
+ex:Archen prop:hasHeight "0.5 m";
+          prop:hasName "Archen";
+          prop:hasType "Rock";
+          prop:hasWeight "9.5 kg";
+          rdfs:label "アーケン"@japanese,
+                     "아켄"@korean,
+                     "始祖小鳥"@chinese,
+                     "Arkéapti"@french,
+                     "Flapteryx"@german,
+                     "Archen"@spanish,
+                     "Archen"@italian,
+                     "Archen"@english.
+ex:Archeops prop:hasHeight "1.4 m";
+            prop:hasName "Archeops";
+            prop:hasType "Rock";
+            prop:hasWeight "32.0 kg";
+            rdfs:label "アーケオス"@japanese,
+                       "아케오스"@korean,
+                       "始祖大鳥"@chinese,
+                       "Aéroptéryx"@french,
+                       "Aeropteryx"@german,
+                       "Archeops"@spanish,
+                       "Archeops"@italian,
+                       "Archeops"@english.
+ex:Arctibax prop:hasHeight "0.8 m";
+            prop:hasName "Arctibax";
+            prop:hasType "Dragon";
+            prop:hasWeight "30.0 kg".
+ex:Arctovish prop:hasHeight "2.0 m";
+             prop:hasName "Arctovish";
+             prop:hasType "Water";
+             prop:hasWeight "175.0 kg";
+             rdfs:label "ウオチルドン"@japanese,
+                        "어치르돈"@korean,
+                        "鰓魚海獸"@chinese,
+                        "Hydragla"@french,
+                        "Pescryodon"@german,
+                        "Arctovish"@spanish,
+                        "Arctovish"@italian,
+                        "Arctovish"@english.
+ex:Arctozolt prop:hasHeight "2.3 m";
+             prop:hasName "Arctozolt";
+             prop:hasType "Electric";
+             prop:hasWeight "150.0 kg";
+             rdfs:label "パッチルドン"@japanese,
+                        "파치르돈"@korean,
+                        "雷鳥海獸"@chinese,
+                        "Galvagla"@french,
+                        "Lecryodon"@german,
+                        "Arctozolt"@spanish,
+                        "Arctozolt"@italian,
+                        "Arctozolt"@english.
+ex:Ariados prop:hasHeight "1.1 m";
+           prop:hasName "Ariados";
+           prop:hasType "Bug";
+           prop:hasWeight "33.5 kg";
+           rdfs:label "アリアドス"@japanese,
+                      "아리아도스"@korean,
+                      "阿利多斯"@chinese,
+                      "Migalos"@french,
+                      "Ariados"@german,
+                      "Ariados"@spanish,
+                      "Ariados"@italian,
+                      "Ariados"@english.
+ex:Armaldo prop:hasHeight "1.5 m";
+           prop:hasName "Armaldo";
+           prop:hasType "Rock";
+           prop:hasWeight "68.2 kg";
+           rdfs:label "アーマルド"@japanese,
+                      "아말도"@korean,
+                      "太古盔甲"@chinese,
+                      "Armaldo"@french,
+                      "Armaldo"@german,
+                      "Armaldo"@spanish,
+                      "Armaldo"@italian,
+                      "Armaldo"@english.
+ex:Armarouge prop:hasHeight "1.5 m";
+             prop:hasName "Armarouge";
+             prop:hasType "Fire";
+             prop:hasWeight "85.0 kg".
+ex:Aromatisse prop:hasHeight "0.8 m";
+              prop:hasName "Aromatisse";
+              prop:hasType "Fairy";
+              prop:hasWeight "15.5 kg";
+              rdfs:label "フレフワン"@japanese,
+                         "프레프티르"@korean,
+                         "芳香精"@chinese,
+                         "Cocotine"@french,
+                         "Parfinesse"@german,
+                         "Aromatisse"@spanish,
+                         "Aromatisse"@italian,
+                         "Aromatisse"@english.
+ex:Aron prop:hasHeight "0.4 m";
+        prop:hasName "Aron";
+        prop:hasType "Steel";
+        prop:hasWeight "60.0 kg";
+        rdfs:label "ココドラ"@japanese,
+                   "가보리"@korean,
+                   "可可多拉"@chinese,
+                   "Galekid"@french,
+                   "Stollunior"@german,
+                   "Aron"@spanish,
+                   "Aron"@italian,
+                   "Aron"@english.
+ex:Arrokuda prop:hasHeight "0.5 m";
+            prop:hasName "Arrokuda";
+            prop:hasType "Water";
+            prop:hasWeight "1.0 kg";
+            rdfs:label "サシカマス"@japanese,
+                       "찌로꼬치"@korean,
+                       "刺梭魚"@chinese,
+                       "Embrochet"@french,
+                       "Pikuda"@german,
+                       "Arrokuda"@spanish,
+                       "Arrokuda"@italian,
+                       "Arrokuda"@english.
+ex:Articuno prop:hasHeight "1.7 m";
+            prop:hasName "Articuno";
+            prop:hasType "Ice";
+            prop:hasWeight "55.4 kg";
+            rdfs:label "フリーザー"@japanese,
+                       "프리져"@korean,
+                       "急凍鳥"@chinese,
+                       "Artikodin"@french,
+                       "Arktos"@german,
+                       "Articuno"@spanish,
+                       "Articuno"@italian,
+                       "Articuno"@english.
+ex:Audino prop:hasHeight "1.1 m";
+          prop:hasName "Audino";
+          prop:hasType "Normal";
+          prop:hasWeight "31.0 kg";
+          rdfs:label "タブンネ"@japanese,
+                     "다부니"@korean,
+                     "差不多娃娃"@chinese,
+                     "Nanméouïe"@french,
+                     "Ohrdoch"@german,
+                     "Audino"@spanish,
+                     "Audino"@italian,
+                     "Audino"@english.
+ex:Aurorus prop:hasHeight "2.7 m";
+           prop:hasName "Aurorus";
+           prop:hasType "Rock";
+           prop:hasWeight "225.0 kg";
+           rdfs:label "アマルルガ"@japanese,
+                      "아마루르가"@korean,
+                      "冰雪巨龍"@chinese,
+                      "Dragmara"@french,
+                      "Amagarga"@german,
+                      "Aurorus"@spanish,
+                      "Aurorus"@italian,
+                      "Aurorus"@english.
+ex:Avalugg prop:hasHeight "2.0 m";
+           prop:hasName "Avalugg";
+           prop:hasType "Ice";
+           prop:hasWeight "505.0 kg";
+           rdfs:label "クレベース"@japanese,
+                      "크레베이스"@korean,
+                      "冰岩怪"@chinese,
+                      "Séracrawl"@french,
+                      "Arktilas"@german,
+                      "Avalugg"@spanish,
+                      "Avalugg"@italian,
+                      "Avalugg"@english.
+ex:Axew prop:hasHeight "0.6 m";
+        prop:hasName "Axew";
+        prop:hasType "Dragon";
+        prop:hasWeight "18.0 kg";
+        rdfs:label "キバゴ"@japanese,
+                   "터검니"@korean,
+                   "牙牙"@chinese,
+                   "Coupenotte"@french,
+                   "Milza"@german,
+                   "Axew"@spanish,
+                   "Axew"@italian,
+                   "Axew"@english.
+ex:Azelf prop:hasHeight "0.3 m";
+         prop:hasName "Azelf";
+         prop:hasType "Psychic";
+         prop:hasWeight "0.3 kg";
+         rdfs:label "アグノム"@japanese,
+                    "아그놈"@korean,
+                    "亞克諾姆"@chinese,
+                    "Créfadet"@french,
+                    "Tobutz"@german,
+                    "Azelf"@spanish,
+                    "Azelf"@italian,
+                    "Azelf"@english.
+ex:Azumarill prop:hasHeight "0.8 m";
+             prop:hasName "Azumarill";
+             prop:hasType "Water";
+             prop:hasWeight "28.5 kg";
+             rdfs:label "マリルリ"@japanese,
+                        "마릴리"@korean,
+                        "瑪力露麗"@chinese,
+                        "Azumarill"@french,
+                        "Azumarill"@german,
+                        "Azumarill"@spanish,
+                        "Azumarill"@italian,
+                        "Azumarill"@english.
+ex:Azurill prop:hasHeight "0.2 m";
+           prop:hasName "Azurill";
+           prop:hasType "Normal";
+           prop:hasWeight "2.0 kg";
+           rdfs:label "ルリリ"@japanese,
+                      "루리리"@korean,
+                      "露力麗"@chinese,
+                      "Azurill"@french,
+                      "Azurill"@german,
+                      "Azurill"@spanish,
+                      "Azurill"@italian,
+                      "Azurill"@english.
+ex:Bagon prop:hasHeight "0.6 m";
+         prop:hasName "Bagon";
+         prop:hasType "Dragon";
+         prop:hasWeight "42.1 kg";
+         rdfs:label "タツベイ"@japanese,
+                    "아공이"@korean,
+                    "寶貝龍"@chinese,
+                    "Draby"@french,
+                    "Kindwurm"@german,
+                    "Bagon"@spanish,
+                    "Bagon"@italian,
+                    "Bagon"@english.
+ex:Baltoy prop:hasHeight "0.5 m";
+          prop:hasName "Baltoy";
+          prop:hasType "Ground";
+          prop:hasWeight "21.5 kg";
+          rdfs:label "ヤジロン"@japanese,
+                     "오뚝군"@korean,
+                     "天秤偶"@chinese,
+                     "Balbuto"@french,
+                     "Puppance"@german,
+                     "Baltoy"@spanish,
+                     "Baltoy"@italian,
+                     "Baltoy"@english.
+ex:Banette prop:hasHeight "1.1 m";
+           prop:hasName "Banette";
+           prop:hasType "Ghost";
+           prop:hasWeight "12.5 kg";
+           rdfs:label "ジュペッタ"@japanese,
+                      "다크펫"@korean,
+                      "詛咒娃娃"@chinese,
+                      "Branette"@french,
+                      "Banette"@german,
+                      "Banette"@spanish,
+                      "Banette"@italian,
+                      "Banette"@english.
+ex:Barbaracle prop:hasHeight "1.3 m";
+              prop:hasName "Barbaracle";
+              prop:hasType "Rock";
+              prop:hasWeight "96.0 kg";
+              rdfs:label "ガメノデス"@japanese,
+                         "거북손데스"@korean,
+                         "龜足巨鎧"@chinese,
+                         "Golgopathe"@french,
+                         "Thanathora"@german,
+                         "Barbaracle"@spanish,
+                         "Barbaracle"@italian,
+                         "Barbaracle"@english.

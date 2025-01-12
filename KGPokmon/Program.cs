@@ -10,8 +10,11 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<PokemonService>();
 
 var pokemonService = new PokemonService(new HttpClient());
-await pokemonService.GenerateAllPokemonTripletsAsync();
-pokemonService.SaveGlobalGraphToFileAndSendAsync("pokemons.ttl");
+await pokemonService.LoadPokemonTranslationsAsync();
+var report = await pokemonService.GenerateAllPokemonTripletsAsync();
+Console.WriteLine(report);
+await pokemonService.SaveGlobalGraphToFileAndSendAsync("wwwroot/data/pokemon.ttl");
+
 
 var app = builder.Build();
 

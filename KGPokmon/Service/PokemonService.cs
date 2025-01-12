@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
@@ -63,16 +64,18 @@ public class PokemonService
         _globalGraph.Assert(pokemonUri, hasWeight, _globalGraph.CreateLiteralNode(weight));
     }
 
-    public async void SaveGlobalGraphToFile(string filePath)
+    public async Task SaveGlobalGraphToFileAndSendAsync(string filePath)
     {
         var writer = new CompressingTurtleWriter { PrettyPrintMode = true, HighSpeedModePermitted = false };
 
         using var fileWriter = new System.IO.StreamWriter(filePath);
         writer.Save(_globalGraph, fileWriter);
+
+        // Envoyer le graphe à Fuseki
         var result = await SendRdfToFusekiAsync(_globalGraph);
         Console.WriteLine(result);
-
     }
+
 
     public async Task<string> GenerateAllPokemonTripletsAsync()
     {
@@ -199,37 +202,4 @@ public class PokemonService
         }
     }
 
-
-    public async Task<Dictionary<string, List<(string, string)>>> LoadPokemonTranslationsAsync()
-    {
-        var translations = new Dictionary<string, List<(string, string)>>();
-
-        // Chemin vers le fichier pokedex-i18n.tsv
-        var filePath = "wwwroot/data/pokedex-i18n.tsv";
-
-        // Lire chaque ligne du fichier
-        var lines = await File.ReadAllLinesAsync(filePath);
-
-        foreach (var line in lines)
-        {
-            var columns = line.Split('\t');
-            if (columns.Length != 4) continue;
-
-            var type = columns[0];
-            var pokemonId = columns[1];
-            var name = columns[2];
-            var language = columns[3];
-
-            if (type != "pokemon") continue;
-
-            // Ajoute les traductions dans le dictionnaire
-            if (!translations.ContainsKey(pokemonId))
-            {
-                translations[pokemonId] = new List<(string, string)>();
-            }
-            translations[pokemonId].Add((name, language));
-        }
-
-        return translations;
-    }
 }

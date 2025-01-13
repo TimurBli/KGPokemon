@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KGPokmon")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+16b832f628eff4f0fc1efb8cd84141c18b98a0ad")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+22d7b237a4edd568ec821fda0cabccadda845005")]
 [assembly: System.Reflection.AssemblyProductAttribute("KGPokmon")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KGPokmon")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Hugo\\Source\\Repos\\KGPokemon\\KGPokmon\\KGPokmon.csproj": {}
+    "C:\\Users\\Hugo\\source\\repos\\KGPokemon\\KGPokmon\\KGPokmon.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Hugo\\Source\\Repos\\KGPokemon\\KGPokmon\\KGPokmon.csproj": {
+    "C:\\Users\\Hugo\\source\\repos\\KGPokemon\\KGPokmon\\KGPokmon.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Hugo\\Source\\Repos\\KGPokemon\\KGPokmon\\KGPokmon.csproj",
+        "projectUniqueName": "C:\\Users\\Hugo\\source\\repos\\KGPokemon\\KGPokmon\\KGPokmon.csproj",
         "projectName": "KGPokmon",
-        "projectPath": "C:\\Users\\Hugo\\Source\\Repos\\KGPokemon\\KGPokmon\\KGPokmon.csproj",
+        "projectPath": "C:\\Users\\Hugo\\source\\repos\\KGPokemon\\KGPokmon\\KGPokmon.csproj",
         "packagesPath": "C:\\Users\\Hugo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Hugo\\Source\\Repos\\KGPokemon\\KGPokmon\\obj\\",
+        "outputPath": "C:\\Users\\Hugo\\source\\repos\\KGPokemon\\KGPokmon\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -57,6 +57,10 @@
               "version": "[112.1.0, )"
             },
             "dotNetRdf": {
+              "target": "Package",
+              "version": "[3.3.0, )"
+            },
+            "dotNetRdf.Shacl": {
               "target": "Package",
               "version": "[3.3.0, )"
             }

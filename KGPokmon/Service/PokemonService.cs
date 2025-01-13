@@ -269,6 +269,7 @@ public class PokemonService
         graph.NamespaceMap.AddNamespace("xsd", new System.Uri("http://www.w3.org/2001/XMLSchema#"));
         graph.NamespaceMap.AddNamespace("ex", new System.Uri("http://example.org/pokemon/"));
         graph.NamespaceMap.AddNamespace("prop", new System.Uri("http://example.org/property/"));
+        graph.NamespaceMap.AddNamespace("xsd", new System.Uri("http://www.w3.org/2001/XMLSchema#"));
         return graph;
     }
 
@@ -285,6 +286,104 @@ public class PokemonService
         var result = await SendRdfToFusekiAsync(_globalGraph);
         System.Console.WriteLine(result);
     }
+
+    public async Task<string> SendShaclSchemaToFusekiAsync()
+    {
+        // Lire le contenu du fichier SHACL
+        var filePath = "wwwroot/data/shapes.ttl";
+        var schemaContent = await System.IO.File.ReadAllTextAsync(filePath);
+
+        // Préparer la requête POST pour le endpoint /data
+        var fusekiEndpoint = "http://localhost:3030/Pokemon/data";
+        var content = new StringContent(schemaContent, Encoding.UTF8, "text/turtle");
+
+        // Envoyer la requête POST
+        var response = await _httpClient.PostAsync(fusekiEndpoint, content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            return "Schéma SHACL envoyé avec succès.";
+        }
+        else
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            return $"Erreur lors de l'envoi du schéma : {response.StatusCode} - {response.ReasonPhrase}\n{errorContent}";
+        }
+    }
+
+
+
+
+    //public async Task<string> ValidateTriplesWithShaclAsync()
+    //{
+    //    var sparqlEndpoint = "http://localhost:3030/Pokemon/query";
+
+    //    var sparqlQuery = @"
+    //    PREFIX sh: <http://www.w3.org/ns/shacl#>
+    //    SELECT ?focusNode ?resultPath ?value ?resultMessage
+    //    WHERE {
+    //      ?report a sh:ValidationReport ;
+    //              sh:result ?result .
+    //      ?result sh:focusNode ?focusNode ;
+    //              sh:resultPath ?resultPath ;
+    //              sh:value ?value ;
+    //              sh:resultMessage ?resultMessage .
+    //    }";
+
+    //    var request = new HttpRequestMessage(HttpMethod.Post, sparqlEndpoint)
+    //    {
+    //        Content = new StringContent($"query={System.Web.HttpUtility.UrlEncode(sparqlQuery)}", Encoding.UTF8, "application/x-www-form-urlencoded")
+    //    };
+
+    //    var response = await _httpClient.SendAsync(request);
+
+    //    if (response.IsSuccessStatusCode)
+    //    {
+    //        var resultContent = await response.Content.ReadAsStringAsync();
+    //        return $"Validation terminée : {resultContent}";
+    //    }
+    //    else
+    //    {
+    //        return $"Erreur lors de la validation : {response.StatusCode} - {response.ReasonPhrase}";
+    //    }
+    //}
+
+    public async Task<string> InsertInvalidTriplesAsync()
+    {
+        var graph = new Graph();
+        graph.NamespaceMap.AddNamespace("ex", new Uri("http://example.org/pokemon/"));
+        graph.NamespaceMap.AddNamespace("prop", new Uri("http://example.org/property/"));
+
+        // Créer un triplet incorrect (manque le nom)
+        var pokemonUri = graph.CreateUriNode("ex:MissingNamePokemon");
+        var rdfType = graph.CreateUriNode("rdf:type");
+        var hasType = graph.CreateUriNode("prop:hasType");
+        graph.Assert(pokemonUri, rdfType, graph.CreateUriNode("ex:Pokemon"));
+        graph.Assert(pokemonUri, hasType, graph.CreateLiteralNode("Fire"));
+
+        // Créer un triplet incorrect (hauteur mal formatée)
+        var anotherPokemonUri = graph.CreateUriNode("ex:BadHeightPokemon");
+        graph.Assert(anotherPokemonUri, rdfType, graph.CreateUriNode("ex:Pokemon"));
+        var hasName = graph.CreateUriNode("prop:hasName");
+        var hasHeight = graph.CreateUriNode("prop:hasHeight");
+        graph.Assert(anotherPokemonUri, hasName, graph.CreateLiteralNode("Charizard"));
+        graph.Assert(anotherPokemonUri, hasHeight, graph.CreateLiteralNode("two meters"));  // Mauvais format
+
+        // Envoyer à Fuseki
+        var writer = new CompressingTurtleWriter();
+        using var stringWriter = new System.IO.StringWriter();
+        writer.Save(graph, stringWriter);
+
+        var rdfTriples = stringWriter.ToString();
+        var fusekiEndpoint = "http://localhost:3030/Pokemon/data";
+        var content = new StringContent(rdfTriples, Encoding.UTF8, "text/turtle");
+
+        var response = await _httpClient.PostAsync(fusekiEndpoint, content);
+        return response.IsSuccessStatusCode ? "Triplets incorrects envoyés." : "Erreur lors de l'envoi des triplets.";
+    }
+
+
+
 
     public async Task<string> SendRdfToFusekiAsync(Graph graph)
     {

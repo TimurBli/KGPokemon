@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yDyXNLHtXLI=",
+  "dgSpecHash": "gPpWWVNn+zU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Hugo\\Source\\Repos\\KGPokemon\\KGPokmon\\KGPokmon.csproj",
+  "projectFilePath": "C:\\Users\\Hugo\\source\\repos\\KGPokemon\\KGPokmon\\KGPokmon.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Hugo\\.nuget\\packages\\anglesharp\\1.1.2\\anglesharp.1.1.2.nupkg.sha512",
     "C:\\Users\\Hugo\\.nuget\\packages\\dotnetrdf\\3.3.0\\dotnetrdf.3.3.0.nupkg.sha512",

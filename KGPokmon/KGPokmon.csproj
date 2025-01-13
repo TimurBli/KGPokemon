@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="dotNetRdf" Version="3.3.0" />
+    <PackageReference Include="dotNetRdf.Shacl" Version="3.3.0" />
     <PackageReference Include="RestSharp" Version="112.1.0" />
   </ItemGroup>
 

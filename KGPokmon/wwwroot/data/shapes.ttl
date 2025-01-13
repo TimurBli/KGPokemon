@@ -1,0 +1,47 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/pokemon/> .
+@prefix prop: <http://example.org/property/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Définir une forme SHACL pour les Pokémon
+ex:PokemonShape
+    a sh:NodeShape ;
+    sh:targetClass ex:Pokemon ;
+
+    # 1. Validation du nom (obligatoire)
+    sh:property [
+        sh:path prop:hasName ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:message "Chaque Pokémon doit avoir un nom." ;
+    ] ;
+
+    # 2. Validation du type (obligatoire et doit être parmi une liste prédéfinie)
+    sh:property [
+        sh:path prop:hasType ;
+        sh:in ("Normal" "Fire" "Water" "Electric" "Grass" "Ice" "Fighting" "Poison" "Ground" "Flying" "Psychic" "Bug" "Rock" "Ghost" "Dragon" "Dark" "Steel" "Fairy") ;
+        sh:minCount 1 ;
+        sh:message "Le type du Pokémon doit être parmi les types Pokémon valides." ;
+    ] ;
+
+    # 3. Validation de la hauteur (au format numérique suivi de 'm')
+    sh:property [
+        sh:path prop:hasHeight ;
+        sh:pattern "^[0-9]+(\\.[0-9]+)?\\s*m$" ;
+        sh:message "La hauteur doit être au format numérique suivi de 'm' (par ex. '1.8 m')." ;
+    ] ;
+
+    # 4. Validation du poids (au format numérique suivi de 'kg')
+    sh:property [
+        sh:path prop:hasWeight ;
+        sh:pattern "^[0-9]+(\\.[0-9]+)?\\s*kg$" ;
+        sh:message "Le poids doit être au format numérique suivi de 'kg' (par ex. '59.0 kg')." ;
+    ] ;
+
+    # 5. Validation des traductions multilingues (au moins 3 langues)
+    sh:property [
+        sh:path rdfs:label ;
+        sh:minCount 3 ;
+        sh:message "Chaque Pokémon doit avoir des traductions dans au moins 3 langues." ;
+    ] .

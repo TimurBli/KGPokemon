@@ -1,33 +1,54 @@
 ﻿@page "/pokemon"
 @inject PokemonService PokemonService
+@inject ShaclValidationService ShaclService
 @rendermode InteractiveServer
 
 <h3>Données de Pokémon</h3>
 
 <button @onclick="GenerateAllPokemonTriplets">Générer les Triplets RDF pour Tous les Pokémon</button>
+<button @onclick="SendShaclSchema">Envoyer le fichier SHACL à Fuseki</button>
+<button @onclick="SendInvalidTriples">Envoyer triplets invalides pour Test</button>
+<button @onclick="ValidateTriples">Valider les Triplets avec SHACL</button>
 
-@if (!string.IsNullOrEmpty(allPokemonTriplets))
+@if (!string.IsNullOrEmpty(validationResult))
 {
     <div>
-        <h4>Triplets RDF pour Tous les Pokémon :</h4>
-        <pre>@allPokemonTriplets</pre>
-
+        <h4>Rapport de Validation SHACL :</h4>
+        <pre>@validationResult</pre>
     </div>
 }
 
 @code {
     private string allPokemonTriplets;
+    private string validationResult;
     private Dictionary<string, List<(string, string)>> translations;
 
     protected override async Task OnInitializedAsync()
     {
-        //translations = await PokemonService.LoadPokemonTranslationsAsync();    
+        // Charger les traductions si nécessaire
+        // translations = await PokemonService.LoadPokemonTranslationsAsync();
     }
 
     private async Task GenerateAllPokemonTriplets()
     {
-        //allPokemonTriplets = await PokemonService.GenerateAllPokemonTripletsAsync();
+        // Générer les triplets RDF pour tous les Pokémon
+        // allPokemonTriplets = await PokemonService.GenerateAllPokemonTripletsAsync();
     }
 
-
+    private async Task SendShaclSchema()
+    {
+        // Envoyer le fichier SHACL à Fuseki
+        var result = await PokemonService.SendShaclSchemaToFusekiAsync();
+        Console.WriteLine(result);
+    }
+    private async Task SendInvalidTriples()
+    {
+        // Insérer des triplets incorrects pour tester la validation
+        await PokemonService.InsertInvalidTriplesAsync();
+    }
+    private async Task ValidateTriples()
+    {
+        // Valider les triplets RDF avec SHACL et afficher le rapport sur la page
+        validationResult = await ShaclService.ValidateRdfWithShaclAsync();
+    }
 }

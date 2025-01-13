@@ -8,6 +8,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<PokemonService>();
+builder.Services.AddScoped<ShaclValidationService>();
 
 var pokemonService = new PokemonService(new HttpClient());
 await pokemonService.LoadPokemonTranslationsAsync();

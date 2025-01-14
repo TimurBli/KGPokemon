@@ -1,0 +1,51 @@
+﻿@page "/linked-data"
+@inject PokemonService PokemonService
+@rendermode InteractiveServer
+
+<h3>Interface Linked Data Pokémon</h3>
+
+<p>Entrez le nom d'un Pokémon pour obtenir ses données en Linked Data :</p>
+
+<input @bind="pokemonName" placeholder="Nom du Pokémon" />
+<select @bind="acceptHeader">
+    <option value="text/turtle">Turtle (RDF)</option>
+    <option value="text/html">HTML</option>
+</select>
+<button @onclick="GetLinkedDataAsync">Obtenir les données</button>
+
+@if (!string.IsNullOrEmpty(linkedData))
+{
+    <div>
+        <h4>Résultat :</h4>
+        <div>@(new MarkupString(linkedData))</div>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(error))
+{
+    <div style="color: red;">
+        <h4>Erreur :</h4>
+        <p>@error</p>
+    </div>
+}
+
+@code {
+    private string pokemonName;
+    private string acceptHeader = "text/html";
+    private string linkedData;
+    private string error;
+
+    private async Task GetLinkedDataAsync()
+    {
+        try
+        {
+            linkedData = await PokemonService.GetLinkedData(pokemonName, acceptHeader);
+            error = null;
+        }
+        catch (Exception ex)
+        {
+            linkedData = null;
+            error = $"Erreur : {ex.Message}";
+        }
+    }
+}

@@ -1,15 +1,22 @@
 ﻿using System.Net.Http;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
+using AngleSharp.Io;
 using HtmlAgilityPack;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using VDS.RDF;
+using VDS.RDF.Query;
 using VDS.RDF.Writing;
+using HttpMethod = System.Net.Http.HttpMethod;
 
 public class PokemonService
 {
     private readonly HttpClient _httpClient;
     private readonly Graph _globalGraph;
+    private readonly string fusekiEndpoint = "http://localhost:3030/Pokemon/query";
 
     // Dictionnaire pour stocker les traductions multilingues
     private Dictionary<string, List<(string, string)>> _translations;
@@ -89,7 +96,7 @@ public class PokemonService
     public async Task<string> GetPokemonDataAsync(string pokemonName)
     {
         var url = $"https://bulbapedia.bulbagarden.net/wiki/{pokemonName}_(Pokémon)";
-        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        var request = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, url);
         request.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
 
         var response = await _httpClient.SendAsync(request);
@@ -128,30 +135,33 @@ public class PokemonService
     /// </summary>
     private void AddTriplesToGlobalGraph(string id, string name, string type, string height, string weight)
     {
-        // On utilise 'id' comme identifiant principal
+        // Utilisation de 'id' comme identifiant principal
         var pokemonUri = _globalGraph.CreateUriNode("ex:" + id);
 
+        // Création des nœuds de propriétés
         var hasName = _globalGraph.CreateUriNode("prop:hasName");
         var hasType = _globalGraph.CreateUriNode("prop:hasType");
         var hasHeight = _globalGraph.CreateUriNode("prop:hasHeight");
         var hasWeight = _globalGraph.CreateUriNode("prop:hasWeight");
         var label = _globalGraph.CreateUriNode("rdfs:label");
+        var sameAs = _globalGraph.CreateUriNode("owl:sameAs");
 
-        // Triplets de base
+        // Ajout des triplets de base
         _globalGraph.Assert(pokemonUri, hasName, _globalGraph.CreateLiteralNode(name));
         _globalGraph.Assert(pokemonUri, hasType, _globalGraph.CreateLiteralNode(type));
         _globalGraph.Assert(pokemonUri, hasHeight, _globalGraph.CreateLiteralNode(height));
         _globalGraph.Assert(pokemonUri, hasWeight, _globalGraph.CreateLiteralNode(weight));
 
-        // Ajout des traductions, si on a chargé _translations
+        // Ajout du triplet owl:sameAs vers DBpedia
+        var dbpediaUri = _globalGraph.CreateUriNode(new Uri($"http://dbpedia.org/resource/{Uri.EscapeDataString(name)}"));
+        _globalGraph.Assert(pokemonUri, sameAs, dbpediaUri);
+
+        // Ajout des traductions (si disponibles)
         if (_translations != null)
         {
-            // Trouver l'ID de Pokédex correspondant au 'id' (nom anglais) 
-            // (ex: "Bulbasaur" => "001") dans le dictionnaire
             var pokedexId = FindPokemonIdByEnglishName(id);
             if (!string.IsNullOrEmpty(pokedexId) && _translations.ContainsKey(pokedexId))
             {
-                // On ajoute pour chaque (nomTraduit, langue)
                 foreach (var (translatedName, language) in _translations[pokedexId])
                 {
                     var langLc = language.ToLower();
@@ -167,6 +177,7 @@ public class PokemonService
             }
         }
     }
+
 
     /// <summary>
     /// Génère les triplets pour tous les Pokémon listés par l'API,
@@ -202,7 +213,7 @@ public class PokemonService
     /// </summary>
     private async Task<List<string>> GetPokemonListAsync()
     {
-        var url = "https://bulbapedia.bulbagarden.net/w/api.php?action=query&list=categorymembers&cmtitle=Category:Pokémon&cmlimit=50&format=json";
+        var url = "https://bulbapedia.bulbagarden.net/w/api.php?action=query&list=categorymembers&cmtitle=Category:Pokémon&cmlimit=1000&format=json";
 
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add("User-Agent", "Mozilla/5.0");
@@ -264,12 +275,12 @@ public class PokemonService
     private Graph CreateGlobalGraph()
     {
         var graph = new Graph();
-        graph.NamespaceMap.AddNamespace("rdf", new System.Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
-        graph.NamespaceMap.AddNamespace("rdfs", new System.Uri("http://www.w3.org/2000/01/rdf-schema#"));
-        graph.NamespaceMap.AddNamespace("xsd", new System.Uri("http://www.w3.org/2001/XMLSchema#"));
-        graph.NamespaceMap.AddNamespace("ex", new System.Uri("http://example.org/pokemon/"));
-        graph.NamespaceMap.AddNamespace("prop", new System.Uri("http://example.org/property/"));
-        graph.NamespaceMap.AddNamespace("xsd", new System.Uri("http://www.w3.org/2001/XMLSchema#"));
+        graph.NamespaceMap.AddNamespace("rdf", new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
+        graph.NamespaceMap.AddNamespace("rdfs", new Uri("http://www.w3.org/2000/01/rdf-schema#"));
+        graph.NamespaceMap.AddNamespace("xsd", new Uri("http://www.w3.org/2001/XMLSchema#"));
+        graph.NamespaceMap.AddNamespace("ex", new Uri("http://example.org/pokemon/"));
+        graph.NamespaceMap.AddNamespace("prop", new Uri("http://example.org/property/"));
+        graph.NamespaceMap.AddNamespace("owl", new Uri("http://www.w3.org/2002/07/owl#")); // Ajout de owl
         return graph;
     }
 
@@ -311,40 +322,37 @@ public class PokemonService
         }
     }
 
-
-
-
-    //public async Task<string> ValidateTriplesWithShaclAsync()
+    //public async task<string> validatetripleswithshaclasync()
     //{
-    //    var sparqlEndpoint = "http://localhost:3030/Pokemon/query";
+    //    var sparqlendpoint = "http://localhost:3030/pokemon/query";
 
-    //    var sparqlQuery = @"
-    //    PREFIX sh: <http://www.w3.org/ns/shacl#>
-    //    SELECT ?focusNode ?resultPath ?value ?resultMessage
-    //    WHERE {
-    //      ?report a sh:ValidationReport ;
+    //    var sparqlquery = @"
+    //    prefix sh: <http://www.w3.org/ns/shacl#>
+    //    select ?focusnode ?resultpath ?value ?resultmessage
+    //    where {
+    //      ?report a sh:validationreport ;
     //              sh:result ?result .
-    //      ?result sh:focusNode ?focusNode ;
-    //              sh:resultPath ?resultPath ;
+    //      ?result sh:focusnode ?focusnode ;
+    //              sh:resultpath ?resultpath ;
     //              sh:value ?value ;
-    //              sh:resultMessage ?resultMessage .
+    //              sh:resultmessage ?resultmessage .
     //    }";
 
-    //    var request = new HttpRequestMessage(HttpMethod.Post, sparqlEndpoint)
+    //    var request = new httprequestmessage(httpmethod.post, sparqlendpoint)
     //    {
-    //        Content = new StringContent($"query={System.Web.HttpUtility.UrlEncode(sparqlQuery)}", Encoding.UTF8, "application/x-www-form-urlencoded")
+    //        content = new stringcontent($"query={system.web.httputility.urlencode(sparqlquery)}", encoding.utf8, "application/x-www-form-urlencoded")
     //    };
 
-    //    var response = await _httpClient.SendAsync(request);
+    //    var response = await _httpclient.sendasync(request);
 
-    //    if (response.IsSuccessStatusCode)
+    //    if (response.issuccessstatuscode)
     //    {
-    //        var resultContent = await response.Content.ReadAsStringAsync();
-    //        return $"Validation terminée : {resultContent}";
+    //        var resultcontent = await response.content.readasstringasync();
+    //        return $"validation terminée : {resultcontent}";
     //    }
     //    else
     //    {
-    //        return $"Erreur lors de la validation : {response.StatusCode} - {response.ReasonPhrase}";
+    //        return $"erreur lors de la validation : {response.statuscode} - {response.reasonphrase}";
     //    }
     //}
 
@@ -381,10 +389,6 @@ public class PokemonService
         var response = await _httpClient.PostAsync(fusekiEndpoint, content);
         return response.IsSuccessStatusCode ? "Triplets incorrects envoyés." : "Erreur lors de l'envoi des triplets.";
     }
-
-
-
-
     public async Task<string> SendRdfToFusekiAsync(Graph graph)
     {
         // Sérialiser le graphe en Turtle
@@ -412,4 +416,125 @@ public class PokemonService
             return $"Erreur lors de l'envoi : {response.StatusCode} - {response.ReasonPhrase}";
         }
     }
+
+    //-----------------------------------------------------------------------------------
+
+
+    public async Task<string> GetLinkedData(string pokemonName, string acceptHeader)
+    {
+        var sparqlQuery = $@"
+            SELECT ?predicate ?object
+            WHERE {{
+                <http://example.org/pokemon/{pokemonName}> ?predicate ?object .
+            }}";
+
+        var results = await ExecuteSparqlQueryAsync(sparqlQuery);
+
+        if (!results.Any())
+        {
+            return $"Aucune donnée trouvée pour {pokemonName}";
+        }
+
+        if (acceptHeader.Contains("text/turtle"))
+        {
+            return GenerateTurtleResponse(pokemonName, results);
+        }
+        else if (acceptHeader.Contains("text/html"))
+        {
+            return GenerateHtmlResponse(pokemonName, results);
+        }
+
+        return "Format non supporté. Utilisez text/turtle ou text/html.";
+    }
+
+    private async Task<List<(string Predicate, string Object)>> ExecuteSparqlQueryAsync(string query)
+    {
+        var sparqlClient = new SparqlRemoteEndpoint(new Uri(fusekiEndpoint));
+
+        SparqlResultSet resultSet;
+        try
+        {
+            resultSet = sparqlClient.QueryWithResultSet(query);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de l'exécution de la requête SPARQL : {ex.Message}");
+            return new List<(string Predicate, string Object)>();
+        }
+
+        return resultSet
+            .Select(result => (
+                Predicate: result["predicate"].ToString(),
+                Object: result["object"].ToString()))
+            .ToList();
+    }
+
+    private string GenerateTurtleResponse(string pokemonName, List<(string Predicate, string Object)> results)
+    {
+        var graph = new Graph();
+        var pokemonUri = graph.CreateUriNode(new Uri($"http://example.org/pokemon/{pokemonName}"));
+
+        foreach (var result in results)
+        {
+            var predicateNode = graph.CreateUriNode(new Uri(result.Predicate));
+            INode objectNode;
+
+            if (result.Object.StartsWith("http"))
+            {
+                objectNode = graph.CreateUriNode(new Uri(result.Object));
+            }
+            else
+            {
+                objectNode = graph.CreateLiteralNode(result.Object);
+            }
+
+            graph.Assert(pokemonUri, predicateNode, objectNode);
+        }
+
+        var writer = new CompressingTurtleWriter();
+        using var stringWriter = new System.IO.StringWriter();
+        writer.Save(graph, stringWriter);
+
+        return stringWriter.ToString();
+    }
+
+
+    private string GenerateHtmlResponse(string pokemonName, List<(string Predicate, string Object)> triples)
+    {
+        var sb = new StringBuilder();
+        sb.Append($"<h1>Description de {pokemonName}</h1>");
+        sb.Append("<table border='1' style='border-collapse:collapse; width:100%;'>");
+        sb.Append("<tr><th>#</th><th>Propriété</th><th>Valeur</th></tr>");
+
+        int counter = 1;
+
+        foreach (var (Predicate, Object) in triples)
+        {
+            // Nettoyer la propriété et la valeur
+            var cleanPredicate = Predicate.Replace("http://example.org/property/", "")
+                                          .Replace("http://www.w3.org/2000/01/rdf-schema#", "rdfs:")
+                                          .Replace("http://www.w3.org/2002/07/owl#", "owl:");
+            var cleanValue = Object.Split("^^")[0].Trim('"');
+
+            sb.Append("<tr>");
+            sb.Append($"<td>{counter++}</td>");
+            sb.Append($"<td>{HtmlEncoder.Default.Encode(cleanPredicate)}</td>");
+
+            // Vérifier si la valeur est un lien ou un texte
+            if (Object.StartsWith("http"))
+            {
+                sb.Append($"<td><a href='{HtmlEncoder.Default.Encode(Object)}' target='_blank'>{HtmlEncoder.Default.Encode(Object)}</a></td>");
+            }
+            else
+            {
+                sb.Append($"<td>{HtmlEncoder.Default.Encode(cleanValue)}</td>");
+            }
+
+            sb.Append("</tr>");
+        }
+
+        sb.Append("</table>");
+        return sb.ToString();
+    }
+
 }

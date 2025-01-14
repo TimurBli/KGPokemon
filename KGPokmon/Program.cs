@@ -1,4 +1,5 @@
 using KGPokmon.Components;
+using Microsoft.AspNetCore.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,8 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<PokemonService>();
+builder.Services.AddSingleton<PokemonService>();
+
 builder.Services.AddScoped<ShaclValidationService>();
 
 var pokemonService = new PokemonService(new HttpClient());
